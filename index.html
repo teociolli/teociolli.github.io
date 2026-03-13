@@ -1,15 +1,445 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-<link rel="stylesheet" type="text/css" href="https://mfrancioll-230126-300-demo.my.salesforce.com/prefcenter/preference-center-1.1.0/css/pref-center-slds.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enterprise Portal</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            padding: 1.5rem 3rem;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 3px solid #667eea;
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav a {
+            color: #555;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+            position: relative;
+        }
+
+        .nav a:hover {
+            color: #667eea;
+        }
+
+        .nav a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #667eea;
+            transition: width 0.3s;
+        }
+
+        .nav a:hover::after {
+            width: 100%;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 3rem;
+        }
+
+        .hero {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 3rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            transition: transform 0.3s, box-shadow 0.3s;
+            animation: fadeInUp 0.8s ease-out;
+            animation-fill-mode: both;
+        }
+
+        .card:nth-child(1) { animation-delay: 0.1s; }
+        .card:nth-child(2) { animation-delay: 0.2s; }
+        .card:nth-child(3) { animation-delay: 0.3s; }
+        .card:nth-child(4) { animation-delay: 0.4s; }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .card-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            color: white;
+            margin-bottom: 1rem;
+        }
+
+        .card h3 {
+            font-size: 1.4rem;
+            margin-bottom: 0.5rem;
+            color: #333;
+        }
+
+        .card p {
+            color: #666;
+            line-height: 1.5;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #eee;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #667eea;
+        }
+
+        .stat-label {
+            font-size: 0.85rem;
+            color: #999;
+            margin-top: 0.25rem;
+        }
+
+        .embed-section {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 3rem;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+            animation: fadeInUp 0.8s ease-out 0.5s;
+            animation-fill-mode: both;
+        }
+
+        .embed-section h2 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .embed-container {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 2rem;
+            min-height: 600px;
+            border: 2px dashed #ccc;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .embed-placeholder {
+            text-align: center;
+            color: #999;
+        }
+
+        .embed-placeholder svg {
+            width: 80px;
+            height: 80px;
+            margin-bottom: 1rem;
+            opacity: 0.3;
+        }
+
+        iframe {
+            width: 100%;
+            height: 600px;
+            border: none;
+            border-radius: 8px;
+        }
+
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 0.3;
+            }
+            50% {
+                opacity: 0.6;
+            }
+        }
+
+        .footer {
+            text-align: center;
+            padding: 2rem;
+            color: rgba(255, 255, 255, 0.8);
+            margin-top: 3rem;
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                padding: 1rem 1.5rem;
+            }
+
+            .nav {
+                display: none;
+            }
+
+            .container {
+                padding: 1.5rem;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+    <link rel="stylesheet" type="text/css" href="https://mfrancioll-230126-300-demo.my.salesforce.com/prefcenter/preference-center-1.1.0/css/pref-center-slds.css">
 </head>
-
 <body>
+    <header class="header">
+        <div class="header-content">
+            <div class="logo">Enterprise Portal</div>
+            <nav class="nav">
+                <a href="#dashboard">Dashboard</a>
+                <a href="#analytics">Analytics</a>
+                <a href="#reports">Reports</a>
+                <a href="#settings">Settings</a>
+            </nav>
+        </div>
+    </header>
 
-<div id="pref-center-main"></div>
+    <div class="container">
+        <section class="hero">
+            <h1>Welcome to Your Portal</h1>
+            <p>Your centralized hub for monitoring, analytics, and insights. Access all your important metrics and tools in one beautiful interface.</p>
+        </section>
+
+        <div class="dashboard-grid">
+            <div class="card">
+                <div class="card-icon">📊</div>
+                <h3>Analytics</h3>
+                <p>Track your key performance indicators and business metrics in real-time.</p>
+                <div class="stats">
+                    <div class="stat-item">
+                        <div class="stat-value">98.5%</div>
+                        <div class="stat-label">Uptime</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">2.4K</div>
+                        <div class="stat-label">Users</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-icon">🚀</div>
+                <h3>Performance</h3>
+                <p>Monitor system health and performance metrics across all services.</p>
+                <div class="stats">
+                    <div class="stat-item">
+                        <div class="stat-value">145ms</div>
+                        <div class="stat-label">Avg Response</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">12.5K</div>
+                        <div class="stat-label">Requests/min</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-icon">💼</div>
+                <h3>Projects</h3>
+                <p>Manage and oversee all your active projects and deliverables.</p>
+                <div class="stats">
+                    <div class="stat-item">
+                        <div class="stat-value">24</div>
+                        <div class="stat-label">Active</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">156</div>
+                        <div class="stat-label">Completed</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-icon">🔔</div>
+                <h3>Notifications</h3>
+                <p>Stay updated with real-time alerts and important system messages.</p>
+                <div class="stats">
+                    <div class="stat-item">
+                        <div class="stat-value">8</div>
+                        <div class="stat-label">New</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">45</div>
+                        <div class="stat-label">This Week</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <section class="embed-section">
+            <h2>Embedded Content</h2>
+            <div class="embed-container" id="embedContainer">
+                <!-- Replace the placeholder content below with your iframe -->
+                <div class="embed-placeholder pulse">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                        <line x1="9" y1="3" x2="9" y2="21"></line>
+                        <line x1="15" y1="3" x2="15" y2="21"></line>
+                        <line x1="3" y1="9" x2="21" y2="9"></line>
+                        <line x1="3" y1="15" x2="21" y2="15"></line>
+                    </svg>
+                    <p><strong>Embed Section Ready</strong></p>
+                    <p>Add your iframe code here</p>
+                </div>
+
+                <!-- Example: Uncomment and modify the iframe below when ready -->
+                <!-- <iframe src="YOUR_URL_HERE" title="Embedded Content"></iframe> -->
+            </div>
+        </section>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2026 Enterprise Portal. All rights reserved.</p>
+    </footer>
+  
+    <script id="preference-center" src="https://mfrancioll-230126-300-demo.my.salesforce.com/prefcenter/preference-center-1.1.0/js/main.js" 
+      pref-center-host="https://mfrancioll-230126-300-demo.my.salesforce.com"
+      pref-center-name="Name"
+      pref-center-param="pctoken"></script>  
+
+    <!--
+    <script>  
+        // Optional: Add your JavaScript functionality here
+
+        // Example: Function to dynamically add an iframe
+        function embedContent(url) {
+            const container = document.getElementById('embedContainer');
+            container.innerHTML = `<iframe src="${url}" title="Embedded Content"></iframe>`;
+        }
+
+        // Smooth scroll for navigation
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+    </script>
+    -->
+  
+</body>
+</html>
+
+
+
+
+
+
 <script id="preference-center" src="https://mfrancioll-230126-300-demo.my.salesforce.com/prefcenter/preference-center-1.1.0/js/main.js" 
   pref-center-host="https://mfrancioll-230126-300-demo.my.salesforce.com"
   pref-center-name="Name"
   pref-center-param="pctoken"></script>
  
- </body>
- </html>
