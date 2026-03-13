@@ -5,10 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Enterprise Portal</title>
     <link rel="stylesheet" type="text/css" href="https://mfrancioll-230126-300-demo.my.salesforce.com/prefcenter/preference-center-1.2.0/css/pref-center-slds.css">
-    <script id="preference-center" src="https://mfrancioll-230126-300-demo.my.salesforce.com/prefcenter/preference-center-1.2.0/js/main.js"
-      pref-center-host="https://mfrancioll-230126-300-demo.my.salesforce.com"
-      pref-center-name="Name"
-      pref-center-param="pctoken"></script>
     <style>
         * {
             margin: 0;
@@ -380,7 +376,12 @@
         <section class="embed-section">
             <h2>Embedded Content</h2>
             <div class="embed-container" id="embedContainer">
-                <!-- Preference center will render here -->
+                <div id="pref-center-main"></div>
+                <script id="preference-center" src="https://mfrancioll-230126-300-demo.my.salesforce.com/prefcenter/preference-center-1.2.0/js/main.js"
+                  pref-center-host="https://mfrancioll-230126-300-demo.my.salesforce.com"
+                  pref-center-name="Name"
+                  pref-center-param="pctoken">
+                </script>
             </div>
         </section>
     </div>
