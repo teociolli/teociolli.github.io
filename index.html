@@ -401,17 +401,21 @@
     <footer class="footer">
         <p>&copy; 2026 Enterprise Portal. All rights reserved.</p>
     </footer>
-  
+
+    <!--
     <script id="preference-center" src="https://mfrancioll-230126-300-demo.my.salesforce.com/prefcenter/preference-center-1.1.0/js/main.js" 
       pref-center-host="https://mfrancioll-230126-300-demo.my.salesforce.com"
       pref-center-name="Name"
-      pref-center-param="pctoken"></script>  
+      pref-center-param="pctoken">
+    </script>  
+    -->
 
-    <!--
+    
     <script>  
         // Optional: Add your JavaScript functionality here
 
         // Example: Function to dynamically add an iframe
+        url = "https://mfrancioll-230126-300-demo.my.salesforce.com/prefcenter/preference-center-1.1.0/js/main.js";
         function embedContent(url) {
             const container = document.getElementById('embedContainer');
             container.innerHTML = `<iframe src="${url}" title="Embedded Content"></iframe>`;
@@ -428,7 +432,7 @@
             });
         });
     </script>
-    -->
+
   
 </body>
 </html>
